@@ -1,0 +1,23 @@
+<div class="ui fixed inverted massive top menu">
+    <div class="ui container">
+        <a class="launch icon item">
+            <i class="content icon"></i>
+        </a>
+        <div class="item"><i class="{{ icon }}"></i>{{ title }}</div>
+    </div>
+    <div class="right menu">
+        <div id="top_menu_dropdown" class="ui dropdown item">{{ current_user.username }}
+             <i class="dropdown icon"></i>
+             <div class="menu">
+                 <a id="small_change_password" class="item" href="#"><i class="configure icon"></i>修改密码</a>
+                 <a class="item" href="/auth/logout"><i class="sign out icon"></i>退出</a>
+             </div>
+        </div>
+    </div>
+</div>
+<script>
+$('.launch').on('click', function(){
+    $('.ui.sidebar').sidebar('toggle');
+});
+$('#top_menu_dropdown').dropdown();
+</script>

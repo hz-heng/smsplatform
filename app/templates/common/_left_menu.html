@@ -1,0 +1,29 @@
+<div class="ui left fixed inverted vertical pointing menu">
+    {% if current_user.is_authenticated %}
+    <div class="item">
+        <div class="ui card">
+            <div class="content">
+                <img class="left floated mini ui image" src="/static/img/male.jpg">
+                <div class="header">{{ current_user.username }}</div>
+                <div class="meta">{{ type[0] }}</div>
+            </div>
+            <div class="extra content">
+                <a id="change_password" href="#"><i class="configure icon"></i>修改密码</a>
+                <a class="right floated" href="/auth/logout"><i class="sign out icon"></i>退出</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% for menu in menus %}
+        {% if menu['require_type'] <= type[1] %}
+            {% if menu.link == request.path%}
+                <a class="item active" href="{{ menu.link }}"><i class="{{ menu.icon }}"></i>{{ menu.name }}</a>
+            {% else %}
+                <a class="item" href="{{ menu.link }}"><i class="{{ menu.icon }}"></i>{{menu.name }}</a>
+            {% endif%}
+        {% endif %}
+    {% endfor %}
+    <div id="version">
+        <span>{{ config.VERSION }}</span>
+    </div>
+</div>

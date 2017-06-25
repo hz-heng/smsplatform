@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ super() }}
+{% endblock %}
+
+{% block table %}
+        <div id="table">
+            <table class="ui celled black table">
+                <thead>
+                    <tr>
+                        <th class="one wide center aligned">序号</th>
+                        <th class="two wide center aligned">短信名称</th>
+                        <th class="two wide center aligned">短信签名</th>
+                        <th class="eight wide">短信预览</th>
+                        <th class="three wide center aligned">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for template in templates %}
+                    <tr>
+                        <td data-label="序号" class="center aligned">{{ loop.index }}</td>
+                        <td data-label="短信名称" class="center aligned">{{ template.name }}</td>
+                        <td data-label="短信签名" class="center aligned">{{ template.sign }}</div>
+                        <td data-label="短信预览">{{ template.content|truncate(28, True) }}</td>
+                        <td data-lable="操作" class="center aligned">
+                             <div id="{{template.id}}" class="ui send small primary button">发送</div>
+                         </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% include "message/_send_modal.html" %}
+{% endblock %}

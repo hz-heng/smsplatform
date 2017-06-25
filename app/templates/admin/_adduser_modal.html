@@ -1,0 +1,55 @@
+<div class="ui adduser small modal">
+    <div id="header" class="header">添加用户</div>
+    <div class="content">
+        <form id="adduserForm" class="ui form">
+            <div class="ui basic segment field">
+                <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input id="username" name="username" placeholder="username" type="text"/>
+                </div>
+            </div>
+            <div class="ui basic segment field">
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input id="password" name="password" placeholder="Password" type="password"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel button">取消</button>
+        <button id="adduser_btn" class="ui submit blue button" form="adduserForm">添加</button>
+    </div>
+</div>
+<script>
+$('.ui.adduser.button').on('click', function(){
+    $('.ui.adduser.modal')
+        .modal({closable: false, transition: 'vertical flip'})
+        .modal('show');
+});
+$("#adduser_btn").on('click', function(){
+    $("#adduserForm").form({
+        fields:{
+            username: 'empty',
+            password: 'empty'
+        },
+        onSuccess: function(e){
+            e.preventDefault();
+        }
+    }).api({
+          method: 'post',
+          url: 'adduser',
+          data: {
+              username: $("#username").val(),
+              password: $("#password").val()
+          },
+          onSuccess: function(data){
+              if (data.status == 'ok'){
+                  $('.ui.adduser.modal').modal('hide');
+                  window.location.reload();
+              }
+              else{alert(data.status);}
+          }
+      });
+});
+</script>

@@ -1,0 +1,123 @@
+<div class="ui edittemp small modal">
+    <div id="header" class="header">编辑模板</div>
+    <div class="content">
+        <form id="addtempForm" class="ui form">
+            <div class="ui basic segment field">
+                <div class="ui two column grid">
+                    <div class="ui labeled input column">
+                        <div class="ui black label">模板名称：</div>
+                        <input id="ename" name="ename" placeholder="填入模板名称" type="text"/>
+                    </div>
+                    <div class="ui labeled input column">
+                        <div class="ui black label">模板代码：</div>
+                        <input id="ecode" name="ecode" placeholder="填入模板代码" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="ui basic segment field">
+                <div class="ui three column grid">
+                    <div class="column">
+                        <div class="ui selection etype dropdown">
+                            <input name="etype" type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">选择短信类型</div>
+                            <div class="menu">
+                                <div class="item" data-value="normal">normal</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui selection esign dropdown">
+                            <input name="esign" type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">选择短信签名</div>
+                            <div class="menu">
+                                <div class="item" data-value="计财部">计财部</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui selection eparam dropdown">
+                            <input name="eparam" type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">是否带参数</div>
+                            <div class="menu">
+                                <div class="item" data-value="0">否</div>
+                                <div class="item" data-value="1">是</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="ui segment field">
+                <div class="ui top left black attached label">短信内容</div>
+                <textarea id="econtent" name="econtent" rows="5" style="width:100%;resize:none"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel button">取消</button>
+        <button id="edittemp_btn" class="ui submiti blue button" form="addtempForm">确认</button>
+    </div>
+</div>
+<script>
+$('.ui.edittemp.button').on('click', function(){
+    var temp_id = $(this).attr("data-id");
+    $("#edittemp_btn").attr("data-id", temp_id);
+    $.ajax({
+        type: 'post',
+        url: 'gettemp',
+        data: temp_id,
+        success: function(data){
+            $("#ename").val(data.name);
+            $("#ecode").val(data.code);
+            $('.ui.etype.dropdown').dropdown('set selected', data.type);
+            $('.ui.esign.dropdown').dropdown('set selected', data.sign);
+            $('.ui.eparam.dropdown').dropdown('set selected', data.param);
+            $("#econtent").val(data.content)
+        }
+    });
+    $('.ui.edittemp.modal')
+        .modal({
+            closable: false, 
+            transition: 'vertical flip',
+            onShow: function() {
+                $('.ui.dropdown').dropdown();
+            }
+        }).modal('show');
+});
+$("#edittemp_btn").on('click', function(){
+    $("#addtempForm").form({
+        fields:{
+            ename: 'empty',
+            ecode: 'empty',
+            etype: 'empty',
+            esign: 'empty',
+            eparam: 'empty',
+            econtent: 'empty'
+        },
+        onSuccess: function(e){
+            e.preventDefault();
+        }
+    }).api({
+          method: 'post',
+          url: 'edittemp',
+          data: {
+              id: $(this).attr("data-id"),
+              name: $("#ename").val(),
+              code: $("#ecode").val(),
+              type: $('.ui.etype.dropdown').dropdown('get value'),
+              sign: $('.ui.esign.dropdown').dropdown('get value'),
+              param: $('.ui.eparam.dropdown').dropdown('get value'),
+              content: $("#econtent").val()
+          },
+          onSuccess: function(data){
+              if (data.status == 'ok'){
+                  $('.ui.addtemp.modal').modal('hide');
+                  window.location.reload();
+              }
+              else{alert(data.status);}
+          }
+    });
+});
+</script>

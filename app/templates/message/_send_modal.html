@@ -1,0 +1,96 @@
+<div class="ui send modal">
+    <div id="header" class="header"></div>
+    <div class="content">
+        <form id="sendForm" class="ui form">
+            <div class="ui basic segment field">
+                <div class="ui labeled input">
+                    <div class="ui black label">接收手机：</div>
+                    <input id="phone" name="phone" placeholder="填入接收手机号码" type="text"/>
+                </div>
+            </div>
+            <div class="ui basic segment field">
+                <div class="ui black label">短信签名:<div id="msg_sign" class="detail"></div></div>
+            </div>
+            <div id="param"></div>
+            <div class="ui segment field">
+                <div class="ui top left black attached label">信息预览</div>
+                <p id="msg_content"></p>
+            </div>
+            <input id="msg_code" type="hidden">
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel button">取消</button>
+        <button id="send_btn" class="ui submit blue button" form="sendForm">发送</button>
+    </div>
+</div>
+<script type="text/javascript">
+$('.ui.send.button').on('click', function(){
+    var tmp_id=$(this).attr("id");
+    $.ajax({
+        type: 'post',
+        url: 'gettemplate',
+        data: tmp_id,
+        success: function(data){
+            $('.ui.send.modal .header').text(data.name);
+            $('#msg_sign').text(data.sign);
+            $("#msg_content").text(data.content);
+            $("#msg_code").val(data.code);
+            if (data.param){
+                $("#param").html('<div class="ui basic segment field"><div id="datepicker" class="ui calendar"><div class="ui labeled input"><div class="ui black label">报到日期：</div><input id="date" name="date" placeholder="选择报到日期" autocomplete="off" type="text" /></div></div></div>');
+                $('#datepicker').calendar({
+                    type: 'datetime',
+                    ampm: false,
+                    formatter: {
+                        date: function(date, settings){
+                            if (!date) return '';
+                            var year = date.getFullYear();
+                            var month = date.getMonth() + 1;
+                            var day = date.getDate();
+                            month = month < 10 ? '0'+month : month;
+                            day = day < 10 ? '0'+day : day;
+                            return year+'-'+month+'-'+day;
+                        }
+                    }
+                });
+            }
+            else{$("#param").html('');}
+        }
+    });
+    $('.ui.send.modal')
+        .modal({
+            closable: false,
+            transition: 'vertical flip'
+       }).modal('show');
+});
+$('#send_btn').on('click', function(){
+    $('#sendForm').form({
+        fields:{
+            phone: ['empty','number'],
+            date: 'empty'
+        },
+        onSuccess: function(e){
+            e.preventDefault();
+        }
+    }).api({
+          url: 'sendmsg',
+          method: 'post',
+          data: {
+              phone: $("#phone").val(),
+              code: $("#msg_code").val(),
+              sign: $("#msg_sign").text(),
+              date: $("#date").val(),
+              content: $("#msg_content").text(),
+              name: $('.ui.send.modal .header').text()
+          },
+          onSuccess: function(data){
+              if (data.status == "发送成功")
+              {
+                  $('.ui.send.modal').modal('hide');
+                  window.location.reload();
+              }
+              else{alert(data.status);}
+          }
+      });
+});
+</script>

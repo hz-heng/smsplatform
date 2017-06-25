@@ -1,0 +1,107 @@
+<div class="ui auth small modal">
+    <div id="header" class="header"></div>
+    <div class="content">
+        <table class="ui celled black table">
+            <thead>
+                <tr>
+                    <th class="one wide center aligned">
+                        <div class="ui master checkbox">
+                            <input type="checkbox">
+                            <label></label>
+                        </div>
+                    </th>
+                    <th class="fifteen wide center aligned">模板名称</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for template in templates %}
+                <tr>
+                    <td class="center aligned">
+                        <div id ="{{ template.id }}" class="ui child checkbox">
+                            <input type="checkbox">
+                            <label></label>
+                        </div>
+                    </td>
+                    <td class="center aligned">{{ template.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div id="auth_btn" class="ui submit blue button">确认</div>
+    </div>
+</div>
+<script>
+$('.ui.auth.button').on('click', function(){
+    $('.ui.child.checkbox').checkbox("uncheck");
+    var user_id = $(this).attr('data-id');
+    $('.ui.auth.modal .header').attr('data-id',user_id);
+    $.ajax({
+        type: 'post',
+        url: 'usertemplates',
+        data: user_id,
+        success: function(data){
+            $('.ui.auth.modal .header').text(data.username+"的权限编辑");
+            $(data.tempids).each(function(i, id){
+                $('.ui.child.checkbox').each(function(){
+                    if ($(this).attr("id") == id)
+                    {$(this).checkbox("check");}
+                });
+            });
+        }
+    });
+    $('.ui.auth.modal')
+        .modal({closable: false, transition: 'vertical flip'})
+        .modal('show');
+});
+$("#auth_btn").on('click', function(){
+    var user_id = $('.ui.auth.modal .header').attr('data-id');
+    var list = new Array();
+    $('.ui.child.checkbox').each(function(){
+        if ($(this).checkbox('is checked'))
+        {list.push($(this).attr("id"))}
+    }); 
+    $.ajax({
+        type: 'post',
+        url: 'authedit',
+        traditional: true,
+        data: {userid:user_id,tempids:list},
+        success: function(data){
+            if (data.status == 'ok'){
+                $('.ui.auth.modal').modal('hide');
+                window.location.reload();
+            } 
+        }
+    });
+});
+$('.ui.master.checkbox').checkbox({
+    onChecked: function(){
+        $('.ui.child.checkbox').each(function(){
+            $(this).checkbox('check');
+        });
+    },
+    onUnchecked: function(){
+        $('.ui.child.checkbox').each(function(){
+            $(this).checkbox('uncheck');
+        });
+    }
+});
+$('.ui.child.checkbox').checkbox({
+    onChange: function(){
+        var allChecked = true, allUnchecked = true;
+        $('.ui.child.checkbox').each(function(){
+            if($(this).checkbox('is checked'))
+            {allUnchecked = false;}
+            else{allChecked = false;}
+        });
+        if(allChecked)
+        {$('.ui.master.checkbox').checkbox('set checked');}
+        else if(allUnchecked)
+        {$('.ui.master.checkbox').checkbox('set unchecked');}
+        else
+        {$('.ui.master.checkbox').checkbox('set indeterminate');}
+    }
+});
+</script>

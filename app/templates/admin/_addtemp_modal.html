@@ -1,0 +1,103 @@
+<div class="ui addtemp small modal">
+    <div id="header" class="header">添加模板</div>
+    <div class="content">
+        <form id="addtempForm" class="ui form">
+            <div class="ui basic segment field">
+                <div class="ui two column grid">
+                    <div class="ui labeled input column">
+                        <div class="ui black label">模板名称：</div>
+                        <input id="name" name="name" placeholder="填入模板名称" type="text"/>
+                    </div>
+                    <div class="ui labeled input column">
+                        <div class="ui black label">模板代码：</div>
+                        <input id="code" name="code" placeholder="填入模板代码" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="ui basic segment field">
+                <div class="ui three column grid">
+                    <div class="column">
+                        <div class="ui selection type dropdown">
+                            <input name="type" type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">选择短信类型</div>
+                            <div class="menu">
+                                <div class="item" data-value="normal">normal</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui selection sign dropdown">
+                            <input name="sign" type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">选择短信签名</div>
+                            <div class="menu">
+                                <div class="item" data-value="计财部">计财部</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui selection param dropdown">
+                            <input name="param" type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">是否带参数</div>
+                            <div class="menu">
+                                <div class="item" data-value="0">否</div>
+                                <div class="item" data-value="1">是</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="ui segment field">
+                <div class="ui top left black attached label">短信内容</div>
+                <textarea id="content" name="content" rows="5" style="width:100%;resize:none"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel button">取消</button>
+        <button id="addtemp_btn" class="ui submit blue button" form="addtempForm">添加</button>
+    </div>
+</div>
+<script>
+$('.ui.addtemp.button').on('click', function(){
+    $('.ui.addtemp.modal')
+        .modal({closable: false, transition: 'vertical flip'})
+        .modal('show');
+});
+$('.ui.dropdown').dropdown();
+$("#addtemp_btn").on('click', function(){
+    $("#addtempForm").form({
+        fields:{
+            name: 'empty',
+            code: 'empty',
+            type: 'empty',
+            sign: 'empty',
+            param: 'empty',
+            content: 'empty'
+        },
+        onSuccess: function(e){
+            e.preventDefault();
+        }
+    }).api({
+          method: 'post',
+          url: 'addtemp',
+          data: {
+              name: $("#name").val(),
+              code: $("#code").val(),
+              type: $('.ui.type.dropdown').dropdown('get value'),
+              sign: $('.ui.sign.dropdown').dropdown('get value'),
+              param: $('.ui.param.dropdown').dropdown('get value'),
+              content: $("#content").val()
+          },
+          onSuccess: function(data){
+              if (data.status == 'ok'){
+                  $('.ui.addtemp.modal').modal('hide');
+                  window.location.reload();
+              }
+              else{alert(data.status);}
+          }
+    });
+});
+</script>

@@ -1,0 +1,14 @@
+<div class="ui inverted vertical sidebar labeled icon menu">
+    {% for menu in menus %}
+        {% if menu['require_type'] <= type[1] %}
+            {% if menu.link == request.path %}
+                <a class="item active" href="{{ menu.link }}"><i class="{{ menu.icon }}"></i>{{ menu.name }}</a>
+            {% else %}
+                <a class="item" href="{{ menu.link }}"><i class="{{ menu.icon }}"></i>{{menu.name }}</a>
+            {% endif%}
+        {% endif %}
+    {% endfor %}
+    <div id="version">
+        <span>{{ config.VERSION }}</span>
+    </div>
+</div>

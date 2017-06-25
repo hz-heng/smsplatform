@@ -1,0 +1,34 @@
+<div class="ui removetemp small modal">
+    <div id="header" class="header"></div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div id="confirm_btn" class="ui submit blue button">确认</div>
+    </div>
+</div>
+<script>
+$('.ui.removetemp.button').on('click', function(){
+    var tempname = $(this).attr("data-name");
+    var temp_id =$(this).attr("id");
+    $(".ui.removetemp.modal .header").text("是否删除模板："+tempname+"?"); 
+    $(".ui.removetemp.modal .header").attr("data-id",temp_id);
+    $('.ui.removetemp.modal')
+        .modal({closable: false, transition: 'vertical flip'})
+        .modal('show');
+});
+$("#confirm_btn").on('click', function(){
+    var temp_id = $('.ui.removetemp.modal .header').attr("data-id");
+    $.ajax({
+        type: 'post',
+        url: 'removetemp',
+        data: temp_id,
+        success: function(data){
+            if (data.status == 'ok')
+            {
+                $('ui.removetemp.modal').modal('hide');
+                window.location.reload();
+            } 
+            else{alert(data.status);}
+        }
+    }); 
+});
+</script>

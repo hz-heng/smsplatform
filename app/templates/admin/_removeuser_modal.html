@@ -1,0 +1,34 @@
+<div class="ui removeuser small modal">
+    <div id="header" class="header"></div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div id="confirm_btn" class="ui submit blue button">确认</div>
+    </div>
+</div>
+<script>
+$('.ui.removeuser.button').on('click', function(){
+    var username = $(this).attr("data-name");
+    var user_id = $(this).attr('id')
+    $(".ui.removeuser.modal .header").text("是否删除"+username+"?"); 
+    $(".ui.removeuser.modal .header").attr("data-id",user_id);
+    $('.ui.removeuser.modal')
+        .modal({closable: false, transition: 'vertical flip'})
+        .modal('show');
+});
+$("#confirm_btn").on('click', function(){
+    var user_id = $('.ui.removeuser.modal .header').attr("data-id");
+    $.ajax({
+        type: 'post',
+        url: 'removeuser',
+        data: user_id,
+        success: function(data){
+            if (data.status == 'ok')
+            {
+                $('.ui.removeuser.modal').modal('hide');
+                window.location.reload();
+            } 
+            else{alert(data.status);}
+        }
+    }); 
+});
+</script>
