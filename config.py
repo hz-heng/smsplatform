@@ -1,3 +1,5 @@
+import os
+
 #the version
 VERSION = 'Ver: 1.0.2'
 
@@ -6,7 +8,8 @@ CSRF_ENABLED = True
 SECRET_KEY = 'abxdefghuijk'
 
 #database settings
-SQLALCHEMY_DATABASE_URI = ""
+basedir = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, 'sms.db')
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
