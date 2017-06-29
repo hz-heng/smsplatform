@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import render_template, redirect, request, jsonify, flash,url_for
 from flask_login import login_required
 from app.ext.principal import admin_permission
