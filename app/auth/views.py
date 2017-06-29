@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import render_template, redirect, request, url_for, flash, current_app, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_principal import Identity, identity_changed, AnonymousIdentity
