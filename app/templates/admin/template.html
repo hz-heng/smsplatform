@@ -1,40 +1,43 @@
-{% extends "base.html" %}
-
-{% block content %}
-    {{ super() }}
-{% endblock %}
-
-{% block table %}
-         <div id="table">
-             <table class="ui celledi black table">
-                 <thead>
-                     <tr>
-                         <th class="one wide center aligned">模板ID</th>
-                         <th class="two wide center aligned">模板代码</th>
-                         <th class="two wide center aligned">模板名</th>
-                         <th class="one wide center aligned">参数</th>
-                         <th class="seven wide">模板预览</th>
-                         <th class="three wide center aligned">操作</th>
-                     </tr>
-                 </thead>
-                 <tbody>
-                     {% for template in templates %}
-                     <tr>
-                         <td data-label="模板ID" class="center aligned">{{ template.id }}</td>
-                         <td data-label="模板代码" class="center aligned">{{ template.code }}</td>
-                         <td data-label="模板名" class="center aligned">{{ template.name }}</td>
-                         <td data-label="参数" class="center aligned">{{ template.param }}</td>
-                         <td data-label="模板预览">{{ template.content }}</td>
-                         <td data-label="操作" class="center aligned">
-                             <div data-id="{{ template.id }}" class="ui edittemp small green button">编辑</div>
-                             <div id="{{ template.id }}" data-name="{{ template.name }}" class="ui removetemp small red button">移除</div>
-                         </td>
-                     </tr>
-                     {% endfor %}
-                 </tbody>
-             </table>
-         </div>
-    {% include "admin/_addtemp_modal.html" %}
-    {% include "admin/_removetemp_modal.html" %}
-    {% include "admin/_edittemp_modal.html" %}
-{% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+    {{ super() }}
+{% endblock %}
+
+{% block table %}
+    <div class="ui basic segment">
+        <div id="addtemp_modal" class="ui small blue button"><i class="add icon"></i>添加模板</div>
+    </div>
+    <div id="table">
+        <table class="ui celledi black table">
+            <thead>
+                <tr>
+                    <th class="one wide center aligned">模板ID</th>
+                    <th class="two wide center aligned">模板代码</th>
+                    <th class="two wide center aligned">模板名</th>
+                    <th class="one wide center aligned">参数</th>
+                    <th class="seven wide">模板预览</th>
+                    <th class="three wide center aligned">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for template in templates %}
+                <tr>
+                    <td data-label="模板ID" class="center aligned">{{ template.id }}</td>
+                    <td data-label="模板代码" class="center aligned">{{ template.code }}</td>
+                    <td data-label="模板名" class="center aligned">{{ template.name }}</td>
+                    <td data-label="参数" class="center aligned">{{ template.param }}</td>
+                    <td data-label="模板预览">{{ template.content }}</td>
+                    <td data-label="操作" class="center aligned">
+                        <div data-id="{{ template.id }}" class="ui edittemp small green button">编辑</div>
+                        <div id="{{ template.id }}" data-name="{{ template.name }}" class="ui removetemp small red button">移除</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "admin/_addtemp_modal.html" %}
+    {% include "admin/_removetemp_modal.html" %}
+    {% include "admin/_edittemp_modal.html" %}
+{% endblock %}
