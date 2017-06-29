@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask_login import UserMixin
 from app import db
 import bcrypt
