@@ -1,40 +1,43 @@
-{% extends "base.html" %}
-
-{% block content %}
-    {{ super() }}
-{% endblock %}
-
-{% block table %}
-         <div id="table">
-             <table class="ui celled black table">
-                 <thead>
-                     <tr>
-                         <th class="one wide center aligned">用户ID</th>
-                         <th class="two wide center aligned">用户名</th>
-                         <th class="eight wide">可用模板</th>
-                         <th class="five wide center aligned">操作</th>
-                     </tr>
-                 </thead>
-                 <tbody>
-                     {% for user in users %}
-                     <tr>
-                         <td data-label="用户ID" class="center aligned">{{ user.id }}</td>
-                         <td data-label="用户名" class="center aligned">{{ user.username }}</td>
-                         <td data-label="可用模板">
-                             {% for template in user.templates %}
-                             <a class="ui black large label">{{ template.name }}</a>
-                             {% endfor %}
-                         </td>
-                         <td data-label="操作" class="center aligned">
-                             <div data-id="{{ user.id }}" class="ui auth small green button">授权</div>
-                             <div id="{{ user.id }}" data-name="{{ user.username }}" class="ui removeuser small red button"><i class="remove user icon"></i>移除</div>
-                         </td>
-                     </tr>
-                     {% endfor %}
-                 </tbody>
-             </table>
-         </div>
-    {% include "admin/_adduser_modal.html" %}
-    {% include "admin/_removeuser_modal.html" %}
-    {% include "admin/_auth_modal.html" %}
-{% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+    {{ super() }}
+{% endblock %}
+
+{% block table %}
+    <div class="ui basic segment">
+        <div id="adduser_modal" class="ui small blue button"><i class="add icon"></i>添加用户</div>
+    </div>
+    <div id="table">
+        <table class="ui celled black table">
+            <thead>
+                <tr>
+                    <th class="one wide center aligned">用户ID</th>
+                    <th class="two wide center aligned">用户名</th>
+                    <th class="eight wide">可用模板</th>
+                    <th class="five wide center aligned">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td data-label="用户ID" class="center aligned">{{ user.id }}</td>
+                    <td data-label="用户名" class="center aligned">{{ user.username }}</td>
+                    <td data-label="可用模板">
+                        {% for template in user.templates %}
+                        <a class="ui black large label">{{ template.name }}</a>
+                        {% endfor %}
+                    </td>
+                    <td data-label="操作" class="center aligned">
+                        <div data-id="{{ user.id }}" class="ui auth small green button">授权</div>
+                        <div id="{{ user.id }}" data-name="{{ user.username }}" class="ui removeuser small red button"><i class="remove user icon"></i>移除</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "admin/_adduser_modal.html" %}
+    {% include "admin/_removeuser_modal.html" %}
+    {% include "admin/_auth_modal.html" %}
+{% endblock %}
