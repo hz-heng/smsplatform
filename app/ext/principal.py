@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask_principal import Principal, Permission, RoleNeed
 
 principal = Principal()
