@@ -1,44 +1,44 @@
-{% extends "base.html" %}
-
-{% block content %}
-    {{ super() }}
-{% endblock %}
-
-{% block table %}
-        <div id="table">
-            <table class="ui celled black table">
-                <thead>
-                    <tr>
-                        <th class="one wide center aligned">序号</th>
-                        {% if current_user.role == "admin" %}
-                        <th class="one wide center aligned">发送人</th>
-                        {% endif %}
-                        <th class="one wide center aligned">短信名称</th>
-                        {% if current_user.role == "admin" %}
-                        <th class="nine wide">短信内容</th>
-                        {% else %}
-                        <th class="ten wide">短信内容</th>
-                        {% endif %}
-                        <th class="one wide center aligned">接收号码</th>
-                        <th class="two wide center aligned">发送时间</th>
-                        <th class="one wide center aligned">状态</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for record in records %}
-                    <tr>
-                        <td data-label="序号" class="center aligned">{{ loop.index }}</td> 
-                        {% if current_user.role == "admin" %}
-                        <td data-label="发送人" class="center aligned">{{ record.users.username }}</td>
-                        {% endif %}
-                        <td data-label="短信名称" class="center aligned">{{ record.name }}</td>
-                        <td data-label="短信内容">{{ record.content }}</div>
-                        <td data-label="接收号码" class="center aligned">{{ record.number}}</td>
-                        <td data-label="发送时间" class="center aligned">{{ record.sendtime}}</td>
-                        <td data-label="状态" class="center aligned">{{ record.status }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-{% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+    {{ super() }}
+{% endblock %}
+
+{% block table %}
+    <div id="table">
+        <table class="ui celled black table">
+            <thead>
+                <tr>
+                    <th class="one wide center aligned">序号</th>
+                    {% if current_user.role == "admin" %}
+                    <th class="one wide center aligned">发送人</th>
+                    {% endif %}
+                    <th class="one wide center aligned">短信名称</th>
+                    {% if current_user.role == "admin" %}
+                    <th class="nine wide">短信内容</th>
+                    {% else %}
+                    <th class="ten wide">短信内容</th>
+                    {% endif %}
+                    <th class="one wide center aligned">接收号码</th>
+                    <th class="two wide center aligned">发送时间</th>
+                    <th class="one wide center aligned">状态</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for record in records %}
+                <tr>
+                    <td data-label="序号" class="center aligned">{{ loop.index }}</td> 
+                    {% if current_user.role == "admin" %}
+                    <td data-label="发送人" class="center aligned">{{ record.users.username }}</td>
+                    {% endif %}
+                    <td data-label="短信名称" class="center aligned">{{ record.name }}</td>
+                    <td data-label="短信内容">{{ record.content }}</div>
+                    <td data-label="接收号码" class="center aligned">{{ record.number}}</td>
+                    <td data-label="发送时间" class="center aligned">{{ record.sendtime}}</td>
+                    <td data-label="状态" class="center aligned">{{ record.status }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
