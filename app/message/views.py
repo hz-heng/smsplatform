@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import render_template, url_for, request, jsonify, current_app, flash
 from flask_login import login_required, current_user
 from . import message
