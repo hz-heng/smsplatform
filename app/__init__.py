@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from app.ext.login import login_manager
