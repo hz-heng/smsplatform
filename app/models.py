@@ -30,7 +30,10 @@ class User(UserMixin, db.Model):
         return bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
 
     def verify_password(self, password):
-        return bcrypt.checkpw(password.encode('utf8'), self.password.encode('utf8'))
+        if isinstance(self.password, bytes):
+            return bcrypt.checkpw(password.encode('utf8'), self.password)
+        else:
+            return bcrypt.checkpw(password.encode('utf8'), self.password.encode('utf8'))
     
     def change_password(self, password):
         self.password = self.set_password(password)
