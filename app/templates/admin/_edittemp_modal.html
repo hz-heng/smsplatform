@@ -1,7 +1,7 @@
 <div class="ui edittemp small modal">
     <div id="header" class="header">编辑模板</div>
     <div class="content">
-        <form id="addtempForm" class="ui form">
+        <form id="edittempForm" class="ui form">
             <div class="ui basic segment field">
                 <div class="ui two column grid">
                     <div class="ui labeled input column">
@@ -57,7 +57,7 @@
     </div>
     <div class="actions">
         <button class="ui cancel button">取消</button>
-        <button id="edittemp_btn" class="ui submiti blue button" form="addtempForm">确认</button>
+        <button id="edittemp_btn" class="ui submiti blue button" form="edittempForm">确认</button>
     </div>
 </div>
 <script>
@@ -87,7 +87,7 @@ $('.ui.edittemp.button').on('click', function(){
         }).modal('show');
 });
 $("#edittemp_btn").on('click', function(){
-    $("#addtempForm").form({
+    $("#edittempForm").form({
         fields:{
             ename: 'empty',
             ecode: 'empty',
@@ -113,7 +113,7 @@ $("#edittemp_btn").on('click', function(){
           },
           onSuccess: function(data){
               if (data.status == 'ok'){
-                  $('.ui.addtemp.modal').modal('hide');
+                  $('.ui.edittemp.modal').modal('hide');
                   window.location.reload();
               }
               else{alert(data.status);}
