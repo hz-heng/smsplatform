@@ -42,7 +42,7 @@ def adduser():
 @login_required
 @admin_permission.require()
 def removeuser():
-    user_id = request.get_data()
+    user_id = request.get_data().decode()
     try:
         user = User.query.filter_by(id=user_id).first()
         db.session.delete(user)
@@ -56,7 +56,7 @@ def removeuser():
 @login_required
 @admin_permission.require()
 def usertemplates():
-    user_id = request.get_data()
+    user_id = request.get_data().decode()
     user = User.query.filter_by(id=user_id).first()
     templates = Template.query.filter(Template.users.any(id=user_id)).all()
     list = [template.id for template in templates]
@@ -111,7 +111,7 @@ def addtemp():
 @login_required
 @admin_permission.require()
 def removetemp():
-    temp_id = request.get_data()
+    temp_id = request.get_data().decode()
     try:
         template = Template.query.filter_by(id=temp_id).first()
         db.session.delete(template)
@@ -125,7 +125,7 @@ def removetemp():
 @login_required
 @admin_permission.require()
 def gettemp():
-    temp_id = request.get_data()
+    temp_id = request.get_data().decode()
     temp = Template.query.filter_by(id=temp_id).first()
     return jsonify(name = temp.name,
                    code = temp.code,
