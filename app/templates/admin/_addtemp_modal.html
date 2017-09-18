@@ -51,7 +51,7 @@
             </div>
             <div class="ui segment field">
                 <div class="ui top left black attached label">短信内容</div>
-                <textarea id="content" name="content" rows="5" style="width:100%;resize:none"></textarea>
+                <textarea id="smscontent" name="smscontent" rows="5" style="width:100%;resize:none"></textarea>
             </div>
         </form>
     </div>
@@ -89,7 +89,7 @@ $("#addtemp_btn").on('click', function(){
               type: $('.ui.type.dropdown').dropdown('get value'),
               sign: $('.ui.sign.dropdown').dropdown('get value'),
               param: $('.ui.param.dropdown').dropdown('get value'),
-              content: $("#content").val()
+              content: $("#smscontent").val()
           },
           onSuccess: function(data){
               if (data.status == 'ok'){
