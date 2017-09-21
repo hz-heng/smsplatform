@@ -16,5 +16,5 @@
 * 浏览器访问http://127.0.0.1:5000
 ### 截图
 ![login](https://github.com/hz-heng/smsplatform/blob/master/Screenshots/login.png)
-![big](https://github.com/hz-heng/smsplatform/blob/master/Screenshots/big.png)
-![small](https://github.com/hz-heng/smsplatform/blob/master/Screenshots/small.png)
+![big](https://github.com/hz-heng/smsplatform/blob/master/Screenshots/BIG.png)
+![small](https://github.com/hz-heng/smsplatform/blob/master/Screenshots/SMALL.png)
