@@ -18,7 +18,7 @@ def send():
 
 @message.route('/gettemplate', methods=['POST'])
 def gettemplate():
-    id = request.get_data()
+    id = request.get_data().decode()
     template = Template.query.filter_by(id=id).first()
     return jsonify(name = template.name,
         code = template.code,
